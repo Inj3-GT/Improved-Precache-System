@@ -85,8 +85,8 @@ local function Improved_Precaching_C_Next()
      print("Models detected : " ..Impr_Count_Ent.. "\nEstimated time : " ..math.Round(Impr_Count_Ent * Improved_Caching_Sys, 1).. " secs")
 end
 
-local function Improved_Precaching_Func(list)
-     Impr_Count_Ent = Improved_CountTable(list)
+local function Improved_Precaching_Func(list, count)
+     Impr_Count_Ent = count
      if (Impr_Count_Ent <= 0) then
           Improved_Precaching_C_Next()
           return
@@ -121,14 +121,15 @@ local Improved_Caching_Load
 hook.Add("InitPostEntity", "Impr_PreCacheModel_Init", function()
 if not Improved_Caching_Load then
      local Impr_List_Veh = list.Get("Vehicles")
+     local Impr_List_Count = Improved_CountTable(Impr_List_Veh)
 
-     if (Improved_CountTable(Impr_List_Veh) + Improved_CountTable(Improved_Custom_Model_Sys) >= 4096) then
+     Improved_Caching_Load = true
+     if (Impr_List_Count + Improved_CountTable(Improved_Custom_Model_Sys) >= 4096) then
           print("We have detected a problem, you have too many models to include in the cache, we stop it now for prevent crash and move on to the next step.")
           Improved_Precaching_S_Next()
           return
      end
 
-     Improved_Precaching_Func(Impr_List_Veh)
-     Improved_Caching_Load = true
+     Improved_Precaching_Func(Impr_List_Veh, Impr_List_Count)
 end
 end)
