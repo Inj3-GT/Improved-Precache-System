@@ -3,17 +3,17 @@
 --- Script By Inj3
 --- https://steamcommunity.com/id/Inj3/
 
-local Improved_Caching_Sys =  0.5 ---- Indiquer ici le délai entre chaque mise en cache (peut causer quelques freezes lors de la mise en cache). / Include here the delay between each caching (may cause some freezes during the pre-caching phase)
+local Improved_Caching_Sys =  0.5 --- Indiquer ici le délai entre chaque mise en cache (peut causer quelques freezes lors de la mise en cache). / Include here the delay between each caching (may cause some freezes during the pre-caching phase)
 local Improved_Blacklist_Sys = { --- Indiquer ici les véhicules à ne pas inclure en cache. / Include here the vehicles not to be included in the cache.
      ["Yacht_2"] = true, --- Ne pas inclure dans le cache si celui-ci n'apparaît jamais sur le serveur. / Do not include in the cache if it never appears on the server.
      ["airtugtdm"] = true,
 }
 local Improved_Custom_Model_Sys = { --- Indiquer ici les models important à inclure dans le cache. / Models to include in the cache.
-     ---"models/bkeypads/keypad_3.0.0.mdl", -- Exemple / Example
+     ---"models/bkeypads/keypad_3.0.0.mdl", --- Exemple / Example
      ---"models/bkeypads/keycard.mdl",
 }
 local Improved_Custom_Sound_Sys = { --- Indiquer ici les sons important à inclure dans le cache. / Sounds to include in the cache.
-     ---"bKeypads.ScanningPing", -- Exemple / Example
+     ---"bKeypads.ScanningPing", --- Exemple / Example
 }
 
 --- Configuration is finished from here.
@@ -102,7 +102,7 @@ local function Improved_Precaching_Func(list)
           Impr_Count_Delay  = Impr_Count_Delay + Improved_Caching_Sys
 
           timer.Simple(Impr_Count_Delay, function()
-          Impr_CountPrecache  = (Impr_CountPrecache or 0) + 1
+          Impr_CountPrecache  = Impr_CountPrecache + 1
           util.PrecacheModel(tbl.Model)
 
           print(tbl.Model, "Caching : " ..Impr_CountPrecache.. "/" ..Impr_Count_Ent)
