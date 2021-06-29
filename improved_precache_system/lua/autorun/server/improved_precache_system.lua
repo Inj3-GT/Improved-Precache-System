@@ -11,7 +11,6 @@ local Improved_Blacklist_Sys = { --- Indiquer ici les véhicules à ne pas inclu
 local Improved_Custom_Model_Sys = { --- Indiquer ici les models important à inclure dans le cache. / Models to include in the cache.
      ---"models/bkeypads/keypad_3.0.0.mdl", -- Exemple / Example
      ---"models/bkeypads/keycard.mdl",
-     ---"models/bkeypads/c_keycard.mdl",
 }
 local Improved_Custom_Sound_Sys = { --- Indiquer ici les sons important à inclure dans le cache. / Sounds to include in the cache.
      ---"bKeypads.ScanningPing", -- Exemple / Example
@@ -123,7 +122,7 @@ hook.Add("InitPostEntity", "Impr_PreCacheModel_Init", function()
 if not Improved_Caching_Load then
      local Impr_List_Veh = list.Get("Vehicles")
 
-     if (Improved_CountTable(Impr_List_Veh) + Improved_CountTable(Improved_Custom_Model_Sys) > 4096) then
+     if (Improved_CountTable(Impr_List_Veh) + Improved_CountTable(Improved_Custom_Model_Sys) >= 4096) then
           print("We have detected a problem, you have too many models to include in the cache, we stop it now for prevent crash and move on to the next step.")
           Improved_Precaching_S_Next()
           return
