@@ -10,8 +10,8 @@ ipr_cache.delay = 0.3 --- Délai entre chaque mise en cache. / Delay between cac
 
 if (SERVER) then
     ipr_cache.enable_serverside = true --- Activer la mise en cache côté server / Enable server-side caching.
-else
     ipr_cache.enable_clientside = true --- Activer la mise en cache côté client / Enable client-side caching.
+else
     ipr_cache.progressbar = true --- Informations visible sur le hud (barre de progression, pourcentage) / Visible information on the hud (progress bar, percentage)
 end
 
@@ -52,11 +52,10 @@ local function Ipr_CacheModel()
          return
      end
     
-     if (CLIENT) then
-     local ipr_valid, ipr_cp = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1, 0
+     local ipr_valid = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1
      ipr_load_caching = true
-     end
- 
+
+     local ipr_cp = 0
      for t, m in pairs(ipr_caching) do
          if not m then
              continue
@@ -73,7 +72,7 @@ local function Ipr_CacheModel()
                  if (n == #m) then
                      print("Caching completed : " ..t.. "\n")
  
-                     if not CLIENT then
+                     if (SERVER) then
                          return
                      end
                      ipr_cp = ipr_cp + 1
