@@ -53,7 +53,9 @@ local function Ipr_CacheModel()
      end
     
      local ipr_valid = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1
+     if (CLIENT) then
      ipr_load_caching = true
+     end
  
      local ipr_cp = 0
      for t, m in pairs(ipr_caching) do
@@ -77,11 +79,9 @@ local function Ipr_CacheModel()
                          return
                      end
                      if (ipr_valid == ipr_cp) then
- 
                          timer.Simple(0.5, function()
                              ipr_load_caching = false
                          end)
- 
                      end
                  end
                  ipr_count = ipr_count + 1
