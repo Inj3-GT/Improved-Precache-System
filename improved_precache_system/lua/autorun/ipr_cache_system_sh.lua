@@ -1,6 +1,4 @@
 --- Script By Inj3
---- Script By Inj3
---- Script By Inj3
 --- https://steamcommunity.com/id/Inj3/
 --- https://github.com/Inj3-GT
 --- Version 2.1
