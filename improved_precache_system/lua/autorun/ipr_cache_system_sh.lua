@@ -7,6 +7,7 @@ local ipr_cache = {} --- Do not touch !
 
 ----- // Configuration 
 ipr_cache.delay = 0.3 --- Délai entre chaque mise en cache. / Delay between caching.
+
 ipr_cache.enable_clientside = true --- Activer la mise en cache côté client / Enable client-side caching.
 if (SERVER) then
 ipr_cache.enable_serverside = true --- Activer la mise en cache côté server / Enable server-side caching.
@@ -90,57 +91,57 @@ local function Ipr_CacheModel()
 end 
 
 if (SERVER) then
-     util.AddNetworkString("ipr_net_cachesys")
-     local ipr_cacheprevent = false
- 
-     if (ipr_cache.enable_serverside) then
-         hook.Add("InitPostEntity", "Ipr_CachingInit", function()
-             if not ipr_cacheprevent then
-                 Ipr_CacheModel()
- 
-                 ipr_cacheprevent = true
-             end
-         end)
-     end
+    util.AddNetworkString("ipr_net_cachesys")
+    local ipr_cacheprevent = false
 
-     hook.Add("PlayerInitialSpawn", "Ipr_CachingSpawn", function(ply)
-         if not ipr_cache.enable_clientside then
-             return
-         end
- 
-         timer.Simple(5, function()
-             if not IsValid(ply) then
-                 return
-             end
- 
-             net.Start("ipr_net_cachesys")
-             net.Send(ply)
-         end)
-     end)
+    hook.Add("InitPostEntity", "Ipr_CachingInit", function()
+        if not ipr_cache.enable_serverside then
+            return
+        end
+        if not ipr_cacheprevent then
+            Ipr_CacheModel()
 
-     print("Improved Caching System by Inj3")
+            ipr_cacheprevent = true
+        end
+    end)
+
+    hook.Add("PlayerInitialSpawn", "Ipr_CachingSpawn", function(ply)
+        if not ipr_cache.enable_clientside then
+            return
+        end
+
+        timer.Simple(5, function()
+            if not IsValid(ply) then
+                return
+            end
+
+            net.Start("ipr_net_cachesys")
+            net.Send(ply)
+        end)
+    end)
+
+    print("Improved Caching System by Inj3")
 else
-     if not ipr_cache.enable_clientside then
-         return
-     end
- 
-     net.Receive("ipr_net_cachesys", function()
-         Ipr_CacheModel()
-     end)
- 
-     local ipr_blue_box = Color(0,69,175)
-     hook.Add("HUDPaint", "Ipr_CachingHud", function()
-         if not ipr_load_caching then
-             return
-         end
-         local ipr_loading_box = ipr_count / ipr_modelmax
-         local ipr_percent = math.Round(ipr_loading_box * 100)
-         local ipr_loading_box_clamp = math.Clamp(ipr_loading_box * 100, 0, 100)
- 
-         draw.RoundedBox(1, ScrW() / 2 - 50, ScrH() / 2 + 13, 100, 10, color_white)
-         draw.RoundedBox(1, ScrW() / 2 - 50, ScrH() / 2 + 13, ipr_loading_box_clamp, 10, ipr_blue_box)
- 
-         draw.SimpleText("Caching in progress : " ..ipr_count.. "/" ..ipr_modelmax, "DermaDefault", ScrW() / 2, ScrH() / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-         draw.SimpleText(ipr_percent.. "% - "..ipr_modelprogress, "DermaDefault", ScrW() / 2, ScrH() / 2 + 30, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-     end)
-end  
+    if not ipr_cache.enable_clientside then
+        return
+    end
+
+    net.Receive("ipr_net_cachesys", function()
+        Ipr_CacheModel()
+    end)
+
+    local ipr_blue_box = Color(0,69,175)
+    hook.Add("HUDPaint", "Ipr_CachingHud", function()
+        if not ipr_load_caching then
+            return
+        end
+        local ipr_loading_box = ipr_count / ipr_modelmax
+        local ipr_loading_box_clamp = math.Round(math.Clamp(ipr_loading_box * 100, 0, 100))
+
+        draw.RoundedBox(1, ScrW() / 2 - 50, ScrH() / 2 + 13, 100, 10, color_white)
+        draw.RoundedBox(1, ScrW() / 2 - 50, ScrH() / 2 + 13, ipr_loading_box_clamp, 10, ipr_blue_box)
+
+        draw.SimpleText("Caching in progress : " ..ipr_count.. "/" ..ipr_modelmax, "DermaDefault", ScrW() / 2, ScrH() / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText(ipr_loading_box_clamp.. "% - "..ipr_modelprogress, "DermaDefault", ScrW() / 2, ScrH() / 2 + 30, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+    end)
+end 
