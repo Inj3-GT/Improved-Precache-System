@@ -3,6 +3,7 @@
 --- Script By Inj3
 local ipr_cache = {} --- Do not touch !
 --- https://steamcommunity.com/id/Inj3/
+--- https://github.com/Inj3-GT
 --- Version 2.0
 
 ----- // Configuration 
