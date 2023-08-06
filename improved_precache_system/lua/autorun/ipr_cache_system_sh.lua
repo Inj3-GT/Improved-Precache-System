@@ -3,7 +3,7 @@
 --- Script By Inj3
 --- https://steamcommunity.com/id/Inj3/
 --- https://github.com/Inj3-GT
---- Version 2.0
+--- Version 2.1
 local ipr_cache = {} --- Do not touch !
 
 ----- // Configuration 
@@ -31,12 +31,17 @@ ipr_cache.customsound = { --- Indiquer ici vos sons customs à ajouter dans le c
 
 --- Do not touch anything below.
 ---
-local ipr_count, ipr_delay, ipr_modelmax, ipr_modelprogress, ipr_load_caching = 0, 0, 0, ""
+local ipr_gcache = {}
+
+if (CLIENT) then
+    ipr_gcache.count, ipr_gcache.modelprogress, ipr_gcache.loadcaching = 0, "", false
+end
+ipr_gcache.delay, ipr_gcache.modelmax = 0, 0
 
 local function Ipr_CacheModel()
      local ipr_caching = {}
- 
      ipr_caching.vehicle = {}
+
      for c, d in pairs(list.Get("Vehicles")) do
          if ipr_cache.blacklist[c] then
              continue
@@ -48,27 +53,28 @@ local function Ipr_CacheModel()
      ipr_caching.sound = ipr_cache.customsound
 
      local ipr_c_custom_model, ipr_c_sound, ipr_c_vehicle = #ipr_caching.custom_model, #ipr_caching.sound, #ipr_caching.vehicle
-     ipr_modelmax = ipr_c_custom_model + ipr_c_sound + ipr_c_vehicle
-     if (ipr_modelmax == 0) then
+
+     ipr_gcache.modelmax = ipr_c_custom_model + ipr_c_sound + ipr_c_vehicle
+     if (ipr_gcache.modelmax == 0) then
          return
      end
-    
-     local ipr_valid = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1
-     ipr_load_caching = true
 
-     local ipr_cp = 0
+     if (CLIENT) then
+     ipr_gcache.cx, ipr_gcache.ipr_ct, ipr_gcache.loadcaching = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1, 0, true
+     end
+
      for t, m in pairs(ipr_caching) do
          if not m then
              continue
          end
  
          for n, v in ipairs(m) do
-             ipr_delay = ipr_delay + ipr_cache.delay
+             ipr_gcache.delay = ipr_gcache.delay + ipr_cache.delay
  
-             timer.Simple(ipr_delay, function()
-                 ipr_modelprogress = tostring(v)
-                 if (t == "sound") then util.PrecacheSound(v) else util.PrecacheModel(v) end
+             timer.Simple(ipr_gcache.delay, function()
                  print("Model caching : " ..v)
+                 
+                 if (t ~= "sound") then util.PrecacheModel(v) else util.PrecacheSound(v) end
  
                  if (n == #m) then
                      print("Caching completed : " ..t.. "\n")
@@ -76,21 +82,25 @@ local function Ipr_CacheModel()
                      if (SERVER) then
                          return
                      end
-                     ipr_cp = ipr_cp + 1
+                     ipr_gcache.ipr_ct = ipr_gcache.ipr_ct + 1
                         
-                     if (ipr_valid == ipr_cp) then
+                     if (ipr_gcache.cx == ipr_gcache.ipr_ct) then
                          timer.Simple(0.5, function()
-                             ipr_load_caching = false
+                             ipr_gcache.loadcaching = false
                          end)
                      end
                  end
-                 ipr_count = ipr_count + 1
+
+                 if (SERVER) then
+                    return
+                 end
+                 ipr_gcache.count, ipr_gcache.modelprogress = ipr_gcache.count + 1, tostring(v)
              end)
          end
      end
- 
-     print("Number of models to cache : " ..ipr_modelmax.. "\nEstimated time : " ..math.Round(ipr_modelmax * ipr_cache.delay, 1).. " secs\n----")
-end 
+
+     print("Number of models to cache : " ..ipr_gcache.modelmax.. "\nEstimated time : " ..math.Round(ipr_gcache.modelmax * ipr_cache.delay, 1).. " secs\n----")
+end
 
 if (SERVER) then
     util.AddNetworkString("ipr_net_cachesys")
@@ -130,17 +140,17 @@ else
 
     local ipr_blue_box = Color(0,69,175)
     hook.Add("HUDPaint", "Ipr_CachingHud", function()
-        if not ipr_load_caching or not ipr_cache.progressbar then
+        if not ipr_gcache.loadcaching or not ipr_cache.progressbar then
             return
         end
-        local ipr_loading_box = ipr_count / ipr_modelmax
+        local ipr_loading_box = ipr_gcache.count / ipr_gcache.modelmax
         local ipr_loading_box_clamp = math.Round(math.Clamp(ipr_loading_box * 100, 0, 100))
         local ipr_w, ipr_h = ScrW(), ScrH()
 
         draw.RoundedBox(1, ipr_w / 2 - 50, ipr_h / 2 + 13, 100, 10, color_white)
         draw.RoundedBox(1, ipr_w / 2 - 50, ipr_h / 2 + 13, ipr_loading_box_clamp, 10, ipr_blue_box)
 
-        draw.SimpleText("Caching in progress : " ..ipr_count.. "/" ..ipr_modelmax, "DermaDefault", ipr_w / 2, ipr_h / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        draw.SimpleText(ipr_loading_box_clamp.. "% - "..ipr_modelprogress, "DermaDefault", ipr_w / 2, ipr_h / 2 + 35, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Caching in progress : " ..ipr_gcache.count.. "/" ..ipr_gcache.modelmax, "DermaDefault", ipr_w / 2, ipr_h / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText(ipr_loading_box_clamp.. "% - "..ipr_gcache.modelprogress, "DermaDefault", ipr_w / 2, ipr_h / 2 + 35, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end)
 end 
