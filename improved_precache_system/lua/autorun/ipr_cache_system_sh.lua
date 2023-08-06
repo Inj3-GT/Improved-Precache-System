@@ -48,10 +48,10 @@ local function Ipr_CacheModel()
 
      local ipr_c_custom_model, ipr_c_sound, ipr_c_vehicle = #ipr_caching.custom_model, #ipr_caching.sound, #ipr_caching.vehicle
      ipr_modelmax = ipr_c_custom_model + ipr_c_sound + ipr_c_vehicle
-
      if (ipr_modelmax == 0) then
          return
      end
+    
      local ipr_valid = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1
      ipr_load_caching = true
  
