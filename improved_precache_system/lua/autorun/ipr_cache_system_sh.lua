@@ -7,10 +7,12 @@ local ipr_cache = {} --- Do not touch !
 
 ----- // Configuration 
 ipr_cache.delay = 0.3 --- Délai entre chaque mise en cache. / Delay between caching.
-
 ipr_cache.enable_clientside = true --- Activer la mise en cache côté client / Enable client-side caching.
+
 if (SERVER) then
-ipr_cache.enable_serverside = true --- Activer la mise en cache côté server / Enable server-side caching.
+    ipr_cache.enable_serverside = true --- Activer la mise en cache côté server / Enable server-side caching.
+else
+    ipr_cache.progressbar = true --- Informations visible sur le hud (barre de progression, pourcentage) / Visible information on the hud (progress bar, percentage)
 end
 
 ipr_cache.blacklist = { --- Indiquer ici les véhicules à ne pas inclure en cache. / Include here the vehicles not to be included in the cache.
@@ -132,7 +134,7 @@ else
 
     local ipr_blue_box = Color(0,69,175)
     hook.Add("HUDPaint", "Ipr_CachingHud", function()
-        if not ipr_load_caching then
+        if not ipr_load_caching or not ipr_cache.progressbar then
             return
         end
         local ipr_loading_box = ipr_count / ipr_modelmax
@@ -142,6 +144,6 @@ else
         draw.RoundedBox(1, ScrW() / 2 - 50, ScrH() / 2 + 13, ipr_loading_box_clamp, 10, ipr_blue_box)
 
         draw.SimpleText("Caching in progress : " ..ipr_count.. "/" ..ipr_modelmax, "DermaDefault", ScrW() / 2, ScrH() / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        draw.SimpleText(ipr_loading_box_clamp.. "% - "..ipr_modelprogress, "DermaDefault", ScrW() / 2, ScrH() / 2 + 30, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText(ipr_loading_box_clamp.. "% - "..ipr_modelprogress, "DermaDefault", ScrW() / 2, ScrH() / 2 + 35, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end)
 end 
