@@ -140,11 +140,12 @@ else
         end
         local ipr_loading_box = ipr_count / ipr_modelmax
         local ipr_loading_box_clamp = math.Round(math.Clamp(ipr_loading_box * 100, 0, 100))
+        local ipr_w, ipr_h = ScrW(), ScrH()
 
-        draw.RoundedBox(1, ScrW() / 2 - 50, ScrH() / 2 + 13, 100, 10, color_white)
-        draw.RoundedBox(1, ScrW() / 2 - 50, ScrH() / 2 + 13, ipr_loading_box_clamp, 10, ipr_blue_box)
+        draw.RoundedBox(1, ipr_w / 2 - 50, ipr_h / 2 + 13, 100, 10, color_white)
+        draw.RoundedBox(1, ipr_w / 2 - 50, ipr_h / 2 + 13, ipr_loading_box_clamp, 10, ipr_blue_box)
 
-        draw.SimpleText("Caching in progress : " ..ipr_count.. "/" ..ipr_modelmax, "DermaDefault", ScrW() / 2, ScrH() / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        draw.SimpleText(ipr_loading_box_clamp.. "% - "..ipr_modelprogress, "DermaDefault", ScrW() / 2, ScrH() / 2 + 35, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Caching in progress : " ..ipr_count.. "/" ..ipr_modelmax, "DermaDefault", ipr_w / 2, ipr_h / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText(ipr_loading_box_clamp.. "% - "..ipr_modelprogress, "DermaDefault", ipr_w / 2, ipr_h / 2 + 35, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end)
 end 
