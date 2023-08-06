@@ -1,10 +1,10 @@
 --- Script By Inj3
 --- Script By Inj3
 --- Script By Inj3
-local ipr_cache = {} --- Do not touch !
 --- https://steamcommunity.com/id/Inj3/
 --- https://github.com/Inj3-GT
 --- Version 2.0
+local ipr_cache = {} --- Do not touch !
 
 ----- // Configuration 
 ipr_cache.delay = 0.3 --- Délai entre chaque mise en cache. / Delay between caching.
