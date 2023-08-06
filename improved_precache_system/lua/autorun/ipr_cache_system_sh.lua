@@ -100,6 +100,7 @@ if (SERVER) then
         if not ipr_cache.enable_serverside then
             return
         end
+            
         if not ipr_cacheprevent then
             Ipr_CacheModel()
 
