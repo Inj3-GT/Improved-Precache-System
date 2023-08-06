@@ -29,7 +29,6 @@ local ipr_count, ipr_delay, ipr_modelmax, ipr_modelprogress, ipr_load_caching = 
 
 local function Ipr_CacheModel()
      local ipr_caching = {}
-     ipr_load_caching = true
  
      ipr_caching.vehicle = {}
      for c, d in pairs(list.Get("Vehicles")) do
@@ -49,6 +48,7 @@ local function Ipr_CacheModel()
          return
      end
      local ipr_valid = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1
+     ipr_load_caching = true
  
      local ipr_cp = 0
      for t, m in pairs(ipr_caching) do
