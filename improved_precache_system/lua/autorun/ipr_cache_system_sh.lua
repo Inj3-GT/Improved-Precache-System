@@ -7,11 +7,11 @@ local ipr_cache = {} --- Do not touch !
 
 ----- // Configuration 
 ipr_cache.delay = 0.3 --- Délai entre chaque mise en cache. / Delay between caching.
-ipr_cache.enable_clientside = true --- Activer la mise en cache côté client / Enable client-side caching.
 
 if (SERVER) then
     ipr_cache.enable_serverside = true --- Activer la mise en cache côté server / Enable server-side caching.
 else
+    ipr_cache.enable_clientside = true --- Activer la mise en cache côté client / Enable client-side caching.
     ipr_cache.progressbar = true --- Informations visible sur le hud (barre de progression, pourcentage) / Visible information on the hud (progress bar, percentage)
 end
 
@@ -52,12 +52,11 @@ local function Ipr_CacheModel()
          return
      end
     
-     local ipr_valid = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1
      if (CLIENT) then
+     local ipr_valid, ipr_cp = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1, 0
      ipr_load_caching = true
      end
  
-     local ipr_cp = 0
      for t, m in pairs(ipr_caching) do
          if not m then
              continue
@@ -72,12 +71,13 @@ local function Ipr_CacheModel()
                  print("Model caching : " ..v)
  
                  if (n == #m) then
-                     ipr_cp = ipr_cp + 1
                      print("Caching completed : " ..t.. "\n")
  
                      if not CLIENT then
                          return
                      end
+                     ipr_cp = ipr_cp + 1
+                        
                      if (ipr_valid == ipr_cp) then
                          timer.Simple(0.5, function()
                              ipr_load_caching = false
@@ -125,10 +125,6 @@ if (SERVER) then
 
     print("Improved Caching System by Inj3")
 else
-    if not ipr_cache.enable_clientside then
-        return
-    end
-
     net.Receive("ipr_net_cachesys", function()
         Ipr_CacheModel()
     end)
