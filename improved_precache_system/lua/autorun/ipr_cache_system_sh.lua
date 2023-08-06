@@ -103,7 +103,6 @@ if (SERVER) then
             
         if not ipr_cacheprevent then
             Ipr_CacheModel()
-
             ipr_cacheprevent = true
         end
     end)
