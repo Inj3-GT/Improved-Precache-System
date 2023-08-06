@@ -8,7 +8,9 @@ local ipr_cache = {} --- Do not touch !
 ----- // Configuration 
 ipr_cache.delay = 0.3 --- Délai entre chaque mise en cache. / Delay between caching.
 ipr_cache.enable_clientside = true --- Activer la mise en cache côté client / Enable client-side caching.
+if (SERVER) then
 ipr_cache.enable_serverside = true --- Activer la mise en cache côté server / Enable server-side caching.
+end
 
 ipr_cache.blacklist = { --- Indiquer ici les véhicules à ne pas inclure en cache. / Include here the vehicles not to be included in the cache.
     ["Yacht_2"] = true, --- Exemple / Example - Ne pas inclure dans le cache si celui-ci n'apparaît jamais sur le serveur. / Do not include in the cache if it never appears on the server.
@@ -93,10 +95,6 @@ if (SERVER) then
  
      if (ipr_cache.enable_serverside) then
          hook.Add("InitPostEntity", "Ipr_CachingInit", function()
-             if not ipr_cache.enable_serverside then
-                 return
-             end
- 
              if not ipr_cacheprevent then
                  Ipr_CacheModel()
  
