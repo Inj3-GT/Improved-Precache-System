@@ -30,7 +30,6 @@ ipr_cache.customsound = { --- Indiquer ici vos sons customs à ajouter dans le c
 ----- //
 
 --- Do not touch anything below.
----
 local ipr_gcache = {}
 
 if (CLIENT) then
