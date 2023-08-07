@@ -38,67 +38,67 @@ end
 ipr_gcache.delay, ipr_gcache.modelmax = 0, 0
 
 local function Ipr_CacheModel()
-     local ipr_caching = {}
-     ipr_caching.vehicle = {}
+    local ipr_caching = {}
+    ipr_caching.vehicle = {}
 
-     for c, d in pairs(list.Get("Vehicles")) do
-         if ipr_cache.blacklist[c] then
-             continue
-         end
-         ipr_caching.vehicle[#ipr_caching.vehicle + 1] = d.Model
-     end
- 
-     ipr_caching.custom_model = ipr_cache.modelsys
-     ipr_caching.sound = ipr_cache.customsound
+    for c, d in pairs(list.Get("Vehicles")) do
+        if ipr_cache.blacklist[c] then
+            continue
+        end
+        ipr_caching.vehicle[#ipr_caching.vehicle + 1] = d.Model
+    end
 
-     local ipr_c_custom_model, ipr_c_sound, ipr_c_vehicle = #ipr_caching.custom_model, #ipr_caching.sound, #ipr_caching.vehicle
+    ipr_caching.custom_model = ipr_cache.modelsys
+    ipr_caching.sound = ipr_cache.customsound
 
-     ipr_gcache.modelmax = ipr_c_custom_model + ipr_c_sound + ipr_c_vehicle
-     if (ipr_gcache.modelmax == 0) then
-         return
-     end
+    local ipr_c_custom_model, ipr_c_sound, ipr_c_vehicle = #ipr_caching.custom_model, #ipr_caching.sound, #ipr_caching.vehicle
 
-     if (CLIENT) then
-     ipr_gcache.cx, ipr_gcache.ct, ipr_gcache.loadcaching = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1, 0, true
-     end
+    ipr_gcache.modelmax = ipr_c_custom_model + ipr_c_sound + ipr_c_vehicle
+    if (ipr_gcache.modelmax == 0) then
+        return
+    end
 
-     for t, m in pairs(ipr_caching) do
-         if not m then
-             continue
-         end
- 
-         for n, v in ipairs(m) do
-             ipr_gcache.delay = ipr_gcache.delay + ipr_cache.delay
- 
-             timer.Simple(ipr_gcache.delay, function()
-                 print("Model caching : " ..v)
-                 
-                 if (t ~= "sound") then util.PrecacheModel(v) else util.PrecacheSound(v) end
- 
-                 if (n == #m) then
-                     print("Caching completed : " ..t.. "\n")
- 
-                     if (SERVER) then
-                         return
-                     end
-                     ipr_gcache.ct = ipr_gcache.ct + 1
-                        
-                     if (ipr_gcache.cx == ipr_gcache.ct) then
-                         timer.Simple(0.5, function()
-                             ipr_gcache.loadcaching = false
-                         end)
-                     end
-                 end
+    if (CLIENT) then
+        ipr_gcache.cx, ipr_gcache.ct, ipr_gcache.loadcaching = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1, 0, true
+    end
 
-                 if (SERVER) then
+    for t, m in pairs(ipr_caching) do
+        if not m then
+            continue
+        end
+
+        for n, v in ipairs(m) do
+            ipr_gcache.delay = ipr_gcache.delay + ipr_cache.delay
+
+            timer.Simple(ipr_gcache.delay, function()
+                print("Model caching : " ..v)
+
+                if (t ~= "sound") then util.PrecacheModel(v) else util.PrecacheSound(v) end
+
+                if (n == #m) then
+                    print("Caching completed : " ..t.. "\n")
+
+                    if (SERVER) then
+                        return
+                    end
+                    ipr_gcache.ct = ipr_gcache.ct + 1
+
+                    if (ipr_gcache.cx == ipr_gcache.ct) then
+                        timer.Simple(0.5, function()
+                            ipr_gcache.loadcaching = false
+                        end)
+                    end
+                end
+
+                if (SERVER) then
                     return
-                 end
-                 ipr_gcache.count, ipr_gcache.modelprogress = ipr_gcache.count + 1, tostring(v)
-             end)
-         end
-     end
+                end
+                ipr_gcache.count, ipr_gcache.modelprogress = ipr_gcache.count + 1, tostring(v)
+            end)
+        end
+    end
 
-     print("Number of models to cache : " ..ipr_gcache.modelmax.. "\nEstimated time : " ..math.Round(ipr_gcache.modelmax * ipr_cache.delay, 1).. " secs\n----")
+    print("Number of models to cache : " ..ipr_gcache.modelmax.. "\nEstimated time : " ..math.Round(ipr_gcache.modelmax * ipr_cache.delay, 1).. " secs\n----")
 end
 
 if (SERVER) then
