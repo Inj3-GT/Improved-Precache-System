@@ -142,7 +142,7 @@ else
         return (t == "w") and ((ipr_cache.progressbar_w == "centre") and w / 2 or (ipr_cache.progressbar_w == "gauche") and 115 or (ipr_cache.progressbar_w == "droite") and w - 100) or (ipr_cache.progressbar_h == "centre") and h / 2 or (ipr_cache.progressbar_h == "haut") and 25 or (ipr_cache.progressbar_h == "bas") and h - 50
     end
 
-    local ipr_bluebox = Color(0,69,175)
+    local ipr_bluebox = Color(77, 97, 185)
     hook.Add("HUDPaint", "Ipr_CachingHud", function()
         if not ipr_gcache.loadcaching or not ipr_cache.progressbar then
             return
