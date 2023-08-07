@@ -13,7 +13,7 @@ if (SERVER) then
 else
     ipr_cache.progressbar = true --- Informations visible sur le hud (barre de progression, pourcentage) / Visible information on the hud (progress bar, percentage)
     ipr_cache.progressbar_w = "centre" --- Largeur (gauche, droite, centre) / Width (gauche = left, droite = right, centre = center)
-    ipr_cache.progressbar_h = "bas" --- Longueur (haut, bas, centre) / Length (haut = top, bas = bottom, centre = center)
+    ipr_cache.progressbar_h = "bas" --- Hauteur (haut, bas, centre) / Height (haut = top, bas = bottom, centre = center)
 end
 
 ipr_cache.blacklist = { --- Indiquer ici les véhicules à ne pas inclure en cache. / Include here the vehicles not to be included in the cache.
