@@ -12,6 +12,8 @@ if (SERVER) then
     ipr_cache.enable_clientside = true --- Activer la mise en cache côté client / Enable client-side caching.
 else
     ipr_cache.progressbar = true --- Informations visible sur le hud (barre de progression, pourcentage) / Visible information on the hud (progress bar, percentage)
+    ipr_cache.progressbar_w = "centre" --- Largeur (gauche, droite, centre) / Width (gauche = left, droite = right, centre = center)
+    ipr_cache.progressbar_h = "bas" --- Longueur (haut, bas, centre) / Length (haut = top, bas = bottom, centre = center)
 end
 
 ipr_cache.blacklist = { --- Indiquer ici les véhicules à ne pas inclure en cache. / Include here the vehicles not to be included in the cache.
@@ -58,7 +60,7 @@ local function Ipr_CacheModel()
      end
 
      if (CLIENT) then
-     ipr_gcache.cx, ipr_gcache.ipr_ct, ipr_gcache.loadcaching = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1, 0, true
+     ipr_gcache.cx, ipr_gcache.ct, ipr_gcache.loadcaching = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1, 0, true
      end
 
      for t, m in pairs(ipr_caching) do
@@ -80,9 +82,9 @@ local function Ipr_CacheModel()
                      if (SERVER) then
                          return
                      end
-                     ipr_gcache.ipr_ct = ipr_gcache.ipr_ct + 1
+                     ipr_gcache.ct = ipr_gcache.ct + 1
                         
-                     if (ipr_gcache.cx == ipr_gcache.ipr_ct) then
+                     if (ipr_gcache.cx == ipr_gcache.ct) then
                          timer.Simple(0.5, function()
                              ipr_gcache.loadcaching = false
                          end)
@@ -108,7 +110,7 @@ if (SERVER) then
         if not ipr_cache.enable_serverside then
             return
         end
-            
+
         if not ipr_cacheprevent then
             Ipr_CacheModel()
             ipr_cacheprevent = true
@@ -136,7 +138,11 @@ else
         Ipr_CacheModel()
     end)
 
-    local ipr_blue_box = Color(0,69,175)
+    local function Ipr_Pos(t, w, h)
+        return (t == "w") and ((ipr_cache.progressbar_w == "centre") and w / 2 or (ipr_cache.progressbar_w == "gauche") and 115 or (ipr_cache.progressbar_w == "droite") and w - 100) or (ipr_cache.progressbar_h == "centre") and h / 2 or (ipr_cache.progressbar_h == "haut") and 25 or (ipr_cache.progressbar_h == "bas") and h - 50
+    end
+
+    local ipr_bluebox = Color(0,69,175)
     hook.Add("HUDPaint", "Ipr_CachingHud", function()
         if not ipr_gcache.loadcaching or not ipr_cache.progressbar then
             return
@@ -145,10 +151,10 @@ else
         local ipr_loading_box_clamp = math.Round(math.Clamp(ipr_loading_box * 100, 0, 100))
         local ipr_w, ipr_h = ScrW(), ScrH()
 
-        draw.RoundedBox(1, ipr_w / 2 - 50, ipr_h / 2 + 13, 100, 10, color_white)
-        draw.RoundedBox(1, ipr_w / 2 - 50, ipr_h / 2 + 13, ipr_loading_box_clamp, 10, ipr_blue_box)
+        draw.RoundedBox(1, Ipr_Pos("w", ipr_w) - 50, Ipr_Pos("h", nil, ipr_h) + 13, 100, 10, color_white)
+        draw.RoundedBox(1, Ipr_Pos("w", ipr_w) - 50, Ipr_Pos("h", nil, ipr_h) + 13, ipr_loading_box_clamp, 10, ipr_bluebox)
 
-        draw.SimpleText("Caching in progress : " ..ipr_gcache.count.. "/" ..ipr_gcache.modelmax, "DermaDefault", ipr_w / 2, ipr_h / 2, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
-        draw.SimpleText(ipr_loading_box_clamp.. "% - "..ipr_gcache.modelprogress, "DermaDefault", ipr_w / 2, ipr_h / 2 + 35, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText("Caching in progress : " ..ipr_gcache.count.. "/" ..ipr_gcache.modelmax, "DermaDefault", Ipr_Pos("w", ipr_w), Ipr_Pos("h", nil, ipr_h), color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
+        draw.SimpleText(ipr_loading_box_clamp.. "% - "..ipr_gcache.modelprogress, "DermaDefault", Ipr_Pos("w", ipr_w), Ipr_Pos("h", nil, ipr_h) + 35, color_white, TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER)
     end)
-end 
+end
