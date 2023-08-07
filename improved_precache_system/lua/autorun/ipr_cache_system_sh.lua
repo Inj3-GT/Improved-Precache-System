@@ -142,6 +142,11 @@ else
         return (t == "w") and ((ipr_cache.progressbar_w == "centre") and w / 2 or (ipr_cache.progressbar_w == "gauche") and 115 or (ipr_cache.progressbar_w == "droite") and w - 100) or (ipr_cache.progressbar_h == "centre") and h / 2 or (ipr_cache.progressbar_h == "haut") and 25 or (ipr_cache.progressbar_h == "bas") and h - 50
     end
 
+    local ipr_w, ipr_h = ScrW(), ScrH()
+    hook.Add("OnScreenSizeChanged", "ipr_CachingChangeResolution", function()
+        ipr_w, ipr_h = ScrW(), ScrH()
+    end)
+
     local ipr_bluebox = Color(77, 97, 185)
     hook.Add("HUDPaint", "Ipr_CachingHud", function()
         if not ipr_gcache.loadcaching or not ipr_cache.progressbar then
@@ -149,7 +154,6 @@ else
         end
         local ipr_loading_box = ipr_gcache.count / ipr_gcache.modelmax
         local ipr_loading_box_clamp = math.Round(math.Clamp(ipr_loading_box * 100, 0, 100))
-        local ipr_w, ipr_h = ScrW(), ScrH()
 
         draw.RoundedBox(1, Ipr_Pos("w", ipr_w) - 50, Ipr_Pos("h", nil, ipr_h) + 13, 100, 10, color_white)
         draw.RoundedBox(1, Ipr_Pos("w", ipr_w) - 50, Ipr_Pos("h", nil, ipr_h) + 13, ipr_loading_box_clamp, 10, ipr_bluebox)
