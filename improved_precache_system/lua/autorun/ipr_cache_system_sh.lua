@@ -1,7 +1,7 @@
 --- Script By Inj3
 --- https://steamcommunity.com/id/Inj3/
 --- https://github.com/Inj3-GT
---- Version 2.1
+--- Version 2.2
 local ipr_cache = {} --- Do not touch !
 
 ----- // Configuration 
