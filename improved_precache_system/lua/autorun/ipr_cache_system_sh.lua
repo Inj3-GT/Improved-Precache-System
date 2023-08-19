@@ -4,7 +4,7 @@
 --- Version 2.2
 local ipr_cache = {} --- Do not touch !
 
------ // Configuration 
+---------------------------------- // Configuration 
 ipr_cache.delay = 0.3 --- Délai entre chaque mise en cache. / Delay between caching.
 
 if (SERVER) then
@@ -27,7 +27,7 @@ ipr_cache.modelsys = { --- Indiquer ici vos models customs à ajouter dans le ca
 ipr_cache.customsound = { --- Indiquer ici vos sons customs à ajouter dans le cache. / Enter your custom sounds to be added to the cache here.
     --"bKeypads.ScanningPing", --- Exemple / Example
 }
------ //
+---------------------------------- //
 
 --- Do not touch anything below.
 local ipr_gcache = {}
