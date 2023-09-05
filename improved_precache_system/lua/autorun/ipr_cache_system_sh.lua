@@ -47,12 +47,10 @@ local function Ipr_CacheModel()
         end
         ipr_caching.vehicle[#ipr_caching.vehicle + 1] = d.Model
     end
-
     ipr_caching.custom_model = ipr_cache.modelsys
     ipr_caching.sound = ipr_cache.customsound
 
     local ipr_c_custom_model, ipr_c_sound, ipr_c_vehicle = #ipr_caching.custom_model, #ipr_caching.sound, #ipr_caching.vehicle
-
     ipr_gcache.modelmax = ipr_c_custom_model + ipr_c_sound + ipr_c_vehicle
     if (ipr_gcache.modelmax == 0) then
         return
