@@ -31,11 +31,11 @@ ipr_cache.customsound = { --- Indiquer ici vos sons customs à ajouter dans le c
 
 --- Do not touch anything below.
 local ipr_gcache = {}
+ipr_gcache.delay, ipr_gcache.modelmax = 0, 0
 
 if (CLIENT) then
     ipr_gcache.count, ipr_gcache.modelprogress, ipr_gcache.loadcaching = 0, "", false
 end
-ipr_gcache.delay, ipr_gcache.modelmax = 0, 0
 
 local function Ipr_CacheModel()
     local ipr_caching = {}
