@@ -18,12 +18,9 @@ ipr_cache.customsound = { --- Indiquer ici vos sons customs à ajouter dans le c
 
 if (SERVER) then
     ipr_cache.enable_serverside = true --- Activer la mise en cache côté server / Enable server-side caching.
-    
     ipr_cache.enable_clientside = true --- Activer la mise en cache côté client / Enable client-side caching.
 else
     ipr_cache.progressbar = true --- Informations visible sur le hud (barre de progression, pourcentage) / Visible information on the hud (progress bar, percentage)
-    
     ipr_cache.progressbar_w = "centre" --- Largeur (gauche, droite, centre) / Width (gauche = left, droite = right, centre = center)
-    
     ipr_cache.progressbar_h = "bas" --- Hauteur (haut, bas, centre) / Height (haut = top, bas = bottom, centre = center)
 end
