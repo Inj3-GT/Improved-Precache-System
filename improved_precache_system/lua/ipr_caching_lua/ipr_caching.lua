@@ -17,6 +17,7 @@ local function Ipr_CacheModel()
         if ipr_cache.blacklist[c] then
            continue
         end
+        
         ipr_gcache.list.vehicle[#ipr_gcache.list.vehicle + 1] = d.Model
     end
 
