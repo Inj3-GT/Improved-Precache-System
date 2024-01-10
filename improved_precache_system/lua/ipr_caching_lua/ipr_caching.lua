@@ -3,10 +3,12 @@
 --- https://github.com/Inj3-GT
 
 local ipr_gcache = {}
-ipr_gcache.delay, ipr_gcache.modelmax = 0, 0
+ipr_gcache.modelmax = 0
 
 if (CLIENT) then
-    ipr_gcache.count, ipr_gcache.modelprogress, ipr_gcache.loadcaching = 0, "", false
+    ipr_gcache.count = 0
+    ipr_gcache.modelprogress = ""
+    ipr_gcache.loadcaching = false
 end
 
 local function Ipr_CacheModel()
@@ -23,8 +25,8 @@ local function Ipr_CacheModel()
 
     ipr_gcache.list.custom_model = ipr_cache.modelsys
     ipr_gcache.list.sound = ipr_cache.customsound
-    ipr_gcache.cx, ipr_gcache.modelmax = 0, 0
-    
+    ipr_gcache.cx = 0 
+
     for _, v in pairs(ipr_gcache.list) do
         if not v then
            continue
@@ -42,9 +44,11 @@ local function Ipr_CacheModel()
     end
 
     if (CLIENT) then
-        ipr_gcache.ct, ipr_gcache.loadcaching = 0, true
+        ipr_gcache.ct = 0
+        ipr_gcache.loadcaching = true
     end
-
+    ipr_gcache.delay = 0
+    
     for t, m in pairs(ipr_gcache.list) do
         if not m then
            continue
