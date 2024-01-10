@@ -25,6 +25,7 @@ local function Ipr_CacheModel()
 
     ipr_gcache.list.custom_model = ipr_cache.modelsys
     ipr_gcache.list.sound = ipr_cache.customsound
+    
     ipr_gcache.cx = 0 
 
     for _, v in pairs(ipr_gcache.list) do
@@ -47,6 +48,7 @@ local function Ipr_CacheModel()
         ipr_gcache.ct = 0
         ipr_gcache.loadcaching = true
     end
+    
     ipr_gcache.delay = 0
     
     for t, m in pairs(ipr_gcache.list) do
