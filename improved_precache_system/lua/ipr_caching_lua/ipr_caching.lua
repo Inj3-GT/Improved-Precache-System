@@ -14,8 +14,9 @@ end
 local function Ipr_CacheModel()
     ipr_gcache.list = {}
     ipr_gcache.list.vehicle = {}
+    local ipr_vehs = list.Get("Vehicles")
 
-    for c, d in pairs(list.Get("Vehicles")) do
+    for c, d in pairs(ipr_vehs) do
         if ipr_cache.blacklist[c] then
            continue
         end
