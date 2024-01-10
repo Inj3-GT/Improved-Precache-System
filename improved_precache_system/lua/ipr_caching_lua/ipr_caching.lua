@@ -10,20 +10,17 @@ if (CLIENT) then
 end
 
 local function Ipr_CacheModel()
-    local ipr_caching = {}
-    ipr_caching.vehicle = {}
+    ipr_gcache.list = {}
+    ipr_gcache.list.vehicle = {}
 
     for c, d in pairs(list.Get("Vehicles")) do
         if ipr_cache.blacklist[c] then
             continue
         end
-        ipr_caching.vehicle[#ipr_caching.vehicle + 1] = d.Model
+        ipr_gcache.list.vehicle[#ipr_gcache.list.vehicle + 1] = d.Model
     end
-    
-    ipr_caching.custom_model = ipr_cache.modelsys
-    ipr_caching.sound = ipr_cache.customsound
 
-    local ipr_c_custom_model, ipr_c_sound, ipr_c_vehicle = #ipr_caching.custom_model, #ipr_caching.sound, #ipr_caching.vehicle
+    local ipr_c_custom_model, ipr_c_sound, ipr_c_vehicle = #ipr_cache.modelsys, #ipr_cache.customsound, #ipr_gcache.list.vehicle
     ipr_gcache.modelmax = ipr_c_custom_model + ipr_c_sound + ipr_c_vehicle
     if (ipr_gcache.modelmax == 0) then
         return
@@ -33,7 +30,7 @@ local function Ipr_CacheModel()
         ipr_gcache.cx, ipr_gcache.ct, ipr_gcache.loadcaching = (ipr_c_custom_model > 0) and (ipr_c_sound > 0) and 3 or ((ipr_c_custom_model > 0) or (ipr_c_sound > 0)) and 2 or 1, 0, true
     end
 
-    for t, m in pairs(ipr_caching) do
+    for t, m in pairs(ipr_gcache.list) do
         if not m then
             continue
         end
