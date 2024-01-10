@@ -40,7 +40,7 @@ local function Ipr_CacheModel()
         ipr_gcache.modelmax = ipr_c + ipr_gcache.modelmax
     end
     
-    if (ipr_gcache.cx == 0) then
+    if not ipr_gcache.cx or (ipr_gcache.cx == 0) then
         return
     end
     if (CLIENT) then
