@@ -22,8 +22,8 @@ local function Ipr_CacheModel()
 
     ipr_gcache.list.custom_model = ipr_cache.modelsys
     ipr_gcache.list.sound = ipr_cache.customsound
-
     ipr_gcache.cx, ipr_gcache.modelmax = 0, 0
+    
     for _, v in pairs(ipr_gcache.list) do
         local ipr_c = #v
         if not v or (ipr_c <= 0) then
