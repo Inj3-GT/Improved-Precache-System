@@ -38,12 +38,11 @@ local function Ipr_CacheModel()
         ipr_gcache.cx = (ipr_gcache.cx or 0) + 1
         ipr_gcache.modelmax = ipr_c + ipr_gcache.modelmax
     end
+    
     if (ipr_gcache.cx == 0) then
         return
     end
-
     if (CLIENT) then
-        ipr_gcache.ct = 0
         ipr_gcache.loadcaching = true
     end
     
@@ -66,7 +65,7 @@ local function Ipr_CacheModel()
                     if (SERVER) then
                         return
                     end
-                    ipr_gcache.ct = ipr_gcache.ct + 1
+                    ipr_gcache.ct = (ipr_gcache.ct or 0) + 1
 
                     if (ipr_gcache.cx == ipr_gcache.ct) then
                         timer.Simple(0.5, function()
