@@ -49,15 +49,13 @@ local function Ipr_CacheModel()
         ipr_gcache.loadcaching = true
     end
     
-    ipr_gcache.delay = 0
-    
     for t, m in pairs(ipr_gcache.list) do
         if not m then
            continue
         end
 
         for n, v in ipairs(m) do
-            ipr_gcache.delay = ipr_gcache.delay + ipr_cache.delay
+            ipr_gcache.delay = (ipr_gcache.delay or 0) + ipr_cache.delay
 
             timer.Simple(ipr_gcache.delay, function()
                 print(((SERVER) and "Server" or "Client") .." Model caching : " ..v)
