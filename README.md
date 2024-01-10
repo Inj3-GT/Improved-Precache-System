@@ -11,3 +11,4 @@ Garry's Mod / Inj3 - Improved Precache System
 - Blacklist vehicles that should not be included in the cache.
 - Add your own models and custom sounds.
 - Progress bar and caching status.
+- Detailed statistics in your console.
