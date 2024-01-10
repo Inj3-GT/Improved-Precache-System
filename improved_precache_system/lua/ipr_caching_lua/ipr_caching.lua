@@ -25,11 +25,14 @@ local function Ipr_CacheModel()
     ipr_gcache.cx, ipr_gcache.modelmax = 0, 0
     
     for _, v in pairs(ipr_gcache.list) do
-        local ipr_c = #v
-        if not v or (ipr_c <= 0) then
+        if not v then
            continue
         end
-
+        local ipr_c = #v
+        if (ipr_c <= 0) then
+           continue
+        end
+        
         ipr_gcache.cx = ipr_gcache.cx + 1
         ipr_gcache.modelmax = ipr_c + ipr_gcache.modelmax
     end
