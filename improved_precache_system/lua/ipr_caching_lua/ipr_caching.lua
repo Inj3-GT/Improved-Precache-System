@@ -67,9 +67,10 @@ local function Ipr_CacheModel()
                     if (SERVER) then
                         return
                     end
+                    local ipr_gcache_ld = (ipr_gcache.cx == ipr_gcache.ct)    
                     ipr_gcache.ct = (ipr_gcache.ct or 0) + 1
 
-                    if (ipr_gcache.cx == ipr_gcache.ct) then
+                    if (ipr_gcache_ld) then
                         timer.Simple(0.5, function()
                             ipr_gcache.loadcaching = false
                         end)
