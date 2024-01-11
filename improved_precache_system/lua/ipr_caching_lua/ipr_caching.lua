@@ -13,7 +13,6 @@ end
 
 local function Ipr_CacheModel()
     local ipr_vehs = list.Get("Vehicles")
-    
     ipr_gcache.list = {}
     ipr_gcache.list.vehicle = {}
     
