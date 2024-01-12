@@ -1,6 +1,7 @@
 # Improved-PreCache-System
 Garry's Mod / Inj3 - Improved Precache System
 
+-------
 - Locally cache the model on the client/server, to avoid any freeze when a vehicle or other object first appears in your map.
 - Optimized code, executed only once once the server has initialized the entities (no impact on performance).
 - Compatible with all gamemodes.
