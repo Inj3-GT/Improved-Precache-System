@@ -72,6 +72,9 @@ local function Ipr_CacheModel()
                     end
                 end
 
+                if (SERVER) then
+                    return
+                end   
                 ipr_gcache.count, ipr_gcache.modelprogress = ipr_gcache.count + 1, tostring(v)
             end)
         end
